@@ -12,9 +12,10 @@ layerw1 = layer_w_1.Layer_w_1()
 
 import feedbackSYS
 feedback = feedbackSYS.Feedback_1(layerw1.response)  
-          # initialize with desired response function
+  """ initialize with desired response function """
 
-from random import choice 
+
+from random import choice
 errors = []
 n = 1000
 for i in xrange(n):

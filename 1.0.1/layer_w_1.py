@@ -1,10 +1,10 @@
-from random import choice 
-from numpy import array, dot, random
+
+from numpy import dot, random
 
 
-# this "Layer1" name is not clear
+
 class Layer_w_1:
-  # w currently is property of current layer
+  """ w currently is the property of current layer """
   def __init__(self):
     self.w = random.rand(3)
     self.eta = 0.2
