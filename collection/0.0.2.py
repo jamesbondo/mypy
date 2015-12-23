@@ -1,3 +1,4 @@
+''' linear regression, single/multiple variable'''
 # batch_gradient_descent_algo.py
 import numpy as np
 from sklearn.datasets.samples_generator import make_regression 
@@ -97,7 +98,11 @@ for i in range(100):
 plt.plot(J,'o')
 plt.show()
 
-======================
+==================================
+screate abitary X,y matrix 
+create random linearly increasing X, y
+scale X with std() 
+==========
 
 
 import numpy as np
@@ -142,3 +147,109 @@ for i in range(100):
 # print theta
 plt.plot(J,'o')
 plt.show()
+
+============== test which alpha converges ============
+
+import numpy as np
+from numpy import linspace,array,random
+import matplotlib.pyplot as plt
+
+
+def create_X_y(m,n):
+  ones = np.ones(m)
+  x = np.random.random((m,n))
+  count = 0
+  while (count < n):
+    x[:,count] += np.arange(m)*np.random.random()*np.random.randint(10)
+    count = count + 1
+  X = np.c_[ones,x]
+  y = np.linspace(0,5,m) + np.random.random(m)
+  return X,y
+
+def scale_std(matrix):
+  m, n = X.shape
+  count = 1
+  while (count<n):
+    array = matrix[:,count]
+    matrix[:,count] = (array - array.mean())/array.std()
+    count = count +1
+  return matrix
+
+m = 4
+n = 2
+X,y = create_X_y(m,n)
+X = scale_std(X)
+# alpha = 0.01
+# J=[5]
+theta = np.random.random(n+1)  # print theta.shape #(4,)
+
+def testALPHA(alpha,J,X,y,m,n,theta):
+  n = 0
+  while J[-1]>1:
+    n = n+1
+    if n == 200:
+      break
+    hypothesis = np.dot(X,theta)
+    diff = hypothesis - y
+    J.append(np.sum(diff**2)/(2*m))
+    gradients = np.dot(diff,X)/m
+    theta = theta - alpha * gradients
+  print J[-1]
+
+alphas = np.arange(0.0005,0.02,0.0005)
+for alpha in alphas:
+  testALPHA(alpha,[5],X,y,m,n,theta)
+
+# plt.plot(J,'o')
+# plt.show()
+# print np.array(J).shape[0]  # number of iterations done
+
+=============== sovle for theta numerically ==================
+
+
+import numpy as np
+from numpy import linspace,array,random
+import matplotlib.pyplot as plt
+from numpy.linalg import pinv
+
+def create_X_y(m,n):
+  ones = np.ones(m)
+  x = np.random.random((m,n))
+  count = 0
+  while (count < n):
+    x[:,count] += np.arange(m)*np.random.random()*np.random.randint(10)
+    count = count + 1
+  X = np.c_[ones,x]
+  y = np.linspace(0,5,m) + np.random.random(m)
+  return X,y
+
+def scale_std(matrix):
+  m, n = X.shape
+  count = 1
+  while (count<n):
+    array = matrix[:,count]
+    matrix[:,count] = (array - array.mean())/array.std()
+    count = count +1
+  return matrix
+
+m = 3
+n = 2
+X,y = create_X_y(m,n)
+X = scale_std(X)
+alpha = 0.02
+J = []
+theta = np.random.random(n+1)  # print theta.shape #(4,)
+
+for i in range(10000):
+  hypothesis = np.dot(X,theta)
+  diff = hypothesis - y
+  J.append(np.sum(diff**2)/(2*m))
+  gradients = np.dot(diff,X)/m
+  theta = theta - alpha * gradients
+print theta
+plt.plot(J,'o')
+plt.show()
+
+XT = X.T
+thetaXT = pinv(XT.dot(X)).dot(XT).dot(y)
+print thetaXT
