@@ -30,6 +30,7 @@ for i in range(100):
 
 # print 1/(1+np.exp((-1)*np.dot(X,theta)))>0.5
 
+''' scatter plot data'''
 pos = np.where(y == 1)
 neg = np.where(y == 0)
 plt.scatter(x[pos, 0], x[pos, 1], marker='o', c='b')
