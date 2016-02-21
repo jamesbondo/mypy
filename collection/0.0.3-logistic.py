@@ -130,7 +130,7 @@ for i in range(10000):
 
 first =  1/(1+np.exp((-1)*np.dot(X,theta))) > 0.5
 second = y > 0.5
-third = first == second
+# third = first == second
 print 1- third[np.where(third==False)].size/np.float(y.size)
 
 

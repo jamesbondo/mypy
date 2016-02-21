@@ -1,21 +1,37 @@
 =================== Classic 11-lines  ===========================
 
+# http://iamtrask.github.io/2015/07/12/basic-python-network/
+'''how many neurons are there in each layers??'''
+'''batch learning'''
+'Each column corresponds to one of our input nodes. '
+'Thus, we have 3 input nodes to the network and 4 training examples.'
+
 import numpy as np
+
+E = []
 
 X = np.array([ [0,0,1],[0,1,1],[1,0,1],[1,1,1] ])
 y = np.array([[0,1,1,0]]).T
-syn0 = 2*np.random.random((3,4)) - 1
+syn0 = 2*np.random.random((3,4)) - 1 
 syn1 = 2*np.random.random((4,1)) - 1
-for j in xrange(1):
+for j in xrange(4000):
     l1 = 1/(1+np.exp(-(np.dot(X,syn0))))
     l2 = 1/(1+np.exp(-(np.dot(l1,syn1))))
-
+    E.append(np.sum((y - l2)**2)/2)
     l2_delta = (y - l2)*(l2*(1-l2))
     l1_delta = l2_delta.dot(syn1.T) * (l1 * (1-l1))
-
     syn1 += l1.T.dot(l2_delta)
     syn0 += X.T.dot(l1_delta)
 
+
+# test = np.array([[1,1,1]])
+# l1 = 1/(1+np.exp(-(np.dot(test,syn0))))
+# l2 = 1/(1+np.exp(-(np.dot(l1,syn1))))
+# print l2
+
+import matplotlib.pyplot as plt
+plt.plot(E,'o')
+plt.show()
 
 =================== begin here  ===========================
 
@@ -102,39 +118,6 @@ plt.show()
 
 
 
-====================  i dont understand batch ====================
-# http://iamtrask.github.io/2015/07/12/basic-python-network/
-'''how many neurons are there in each layers??'''
-'''batch learning'''
-'Each column corresponds to one of our input nodes. '
-'Thus, we have 3 input nodes to the network and 4 training examples.'
-
-import numpy as np
-
-E = []
-
-X = np.array([ [0,0,1],[0,1,1],[1,0,1],[1,1,1] ])
-y = np.array([[0,1,1,0]]).T
-syn0 = 2*np.random.random((3,4)) - 1 
-syn1 = 2*np.random.random((4,1)) - 1
-for j in xrange(4000):
-    l1 = 1/(1+np.exp(-(np.dot(X,syn0))))
-    l2 = 1/(1+np.exp(-(np.dot(l1,syn1))))
-    E.append(np.sum((y - l2)**2)/2)
-    l2_delta = (y - l2)*(l2*(1-l2))
-    l1_delta = l2_delta.dot(syn1.T) * (l1 * (1-l1))
-    syn1 += l1.T.dot(l2_delta)
-    syn0 += X.T.dot(l1_delta)
-
-
-# test = np.array([[1,1,1]])
-# l1 = 1/(1+np.exp(-(np.dot(test,syn0))))
-# l2 = 1/(1+np.exp(-(np.dot(l1,syn1))))
-# print l2
-
-import matplotlib.pyplot as plt
-plt.plot(E,'o')
-plt.show()
 
 ================== XOR and 'bias?..'... not sure about the bias  ==================
 wrong 'bias unit' here
@@ -749,10 +732,17 @@ def addBias(source):
   return np.c_[source,ones]
 def getWeights(width1,width2):
   return np.random.random((width1,width2))*2 - 1
+def projectToStandardField(source):
+  '''project to standard field '''
+  m,n = source.shape
+  ones = np.ones((m, 30*30-n))*0.001
+  source = np.c_[source,ones]
+  return source
 
 
 a_I = np.array([[0,0],[0,1],[1,0],[1,1]])
 a_I = addBias(a_I)
+# a_I = projectToStandardField(a_I)
 m = a_I.shape[0]
 t_K = np.array([[0,0],[1,0],[1,0],[0,0]])
 alpha = 0.1
@@ -773,7 +763,7 @@ for i in range(1000):
   delta_J = delta_K.dot(theta_K.T)*a_J*(1-a_J)
 
   cost = -t_K * np.log(a_K) - (1-t_K)*np.log(1-a_K)
-  cost = np.sum(cost)/m
+  cost = np.sum(cost)
   E.append(cost)
 
   theta_K += a_J.T.dot(delta_K)
@@ -781,6 +771,7 @@ for i in range(1000):
 
 # print E
 import matplotlib.pyplot as plt
+E = np.array(E)/m
 plt.plot(E,'o')
 plt.show()
 
@@ -877,11 +868,18 @@ def recodeLabel( y, k ):
   for i in range(0, m):
     out[i, y[i]-1] = 1
   return out
+def projectToStandardField(source):
+  '''project to standard field '''
+  m,n = source.shape
+  ones = np.ones((m, 25*25-n))*0.001
+  source = np.c_[source,ones]
+  return source
 
 mat = scipy.io.loadmat( "data/ex3data1.mat" )
 a_I, t_K = mat['X'],mat['y']
 # displayData(a_I)
-a_I = addBias(a_I)
+# a_I = addBias(a_I)
+a_I = projectToStandardField(a_I)
 t_K = recodeLabel(t_K,10)
 m,n = a_I.shape
 E = []
@@ -901,13 +899,14 @@ for i in range(200):
   delta_J = delta_K.dot(theta_K.T)*a_J*(1-a_J)
 
   cost = -t_K * np.log(a_K+0.00000001) - (1-t_K)*np.log(1-a_K+0.00000001)
-  cost = np.sum(cost)/(m*n)
+  cost = np.sum(cost)
   E.append(cost)
 
   theta_K += a_J.T.dot(delta_K)*0.001
   theta_J += a_I.T.dot(delta_J)*0.001
 
 # print E
+E = np.array(E)/m
 import matplotlib.pyplot as plt
 plt.plot(E,'o')
 plt.show()
