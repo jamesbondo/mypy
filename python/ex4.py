@@ -314,7 +314,7 @@ def part2_4():
 	unraveled = r_[theta1.T.flatten(), theta2.T.flatten()]
 
 	print computeNumericalGradient( unraveled, input_layer_size, hidden_layer_size, num_labels, X, y, lamda )
-
+	
 
 def part2_5():
 	mat = scipy.io.loadmat( "data/ex3data1.mat" )

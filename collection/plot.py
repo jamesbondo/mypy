@@ -70,7 +70,9 @@ plt.show()
 ===================''' complex: weights and dataset'''=================
 '''v-0.0.1'''
 '''decision boundary ploting for XOR gate'''
+
 lines drawn from layer_J themselves are the decision boundaries...
+
 import sys
 import PIL.Image
 import scipy.misc, scipy.io, scipy.optimize, scipy.special
@@ -123,7 +125,7 @@ def plot_lines_for_theta_(theta_, a_, t_K):
   countx0x1 = 0
   for i in range(theta_.shape[1]):
     w = theta_[:,i]
-    x1 = np.linspace(-20,20,200)
+    x1 = np.linspace(-2,2,20)
     x0 = -1  * (w[1] * x1 + w[2] * x2) / w[0]
     plt.plot(x0,x1,'b-')
   
@@ -179,8 +181,8 @@ K_width = t_K.shape[1]
 
 theta_J = getWeights(I_width, J_width)
 theta_K = getWeights(J_width,K_width)
-
-for i in range(1000):
+counter = 0
+for i in range(100):
   a_J = logis(a_I,theta_J)
   a_K = logis(a_J,theta_K)
 
@@ -193,12 +195,17 @@ for i in range(1000):
 
   theta_K += a_J.T.dot(delta_K)
   theta_J += a_I.T.dot(delta_J)
+  
+  counter += 0
+  if(counter == 5):
+    counter = 0
+    plot_lines_for_theta_(theta_J, a_I, t_K)
+  counter += 1
 
-plot_E(E)
+
+# plot_E(E)
 plot_final_shape(theta_J, theta_K)
-plot_lines_for_theta_(theta_J, a_I, t_K)
-# print theta_K
+# plot_lines_for_theta_(theta_J, a_I, t_K)
 # get_accuracy(a_I, theta_J, theta_K)
 # plot_lines_for_theta_(theta_K, logis(a_I,theta_J),t_K)
-
 

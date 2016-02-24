@@ -11,7 +11,6 @@ from matplotlib import pyplot, cm
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.mlab as mlaba
 
-from util import Util
 
 def featureNormalize( data ):
 	mu 			= mean( data, axis=0 )
@@ -128,7 +127,7 @@ def plotFit(min_x, max_x, mu, sigma, theta, p):
 	pyplot.plot( x, X_poly.dot(theta), linestyle='--', linewidth=3 )
 
 def part1_1():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 
 	pyplot.scatter( X, y, marker='x', c='r', s=30, linewidth=2 )
@@ -139,7 +138,7 @@ def part1_1():
 	pyplot.show()
 
 def part1_2():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 	X_val, y_val 	= mat['Xval'], mat['yval']
 	X_test, y_test 	= mat['Xtest'], mat['ytest']
@@ -149,7 +148,7 @@ def part1_2():
 	print computeCost( theta, c_[ones((shape(X)[0], 1)), X  ] , y, 1.0 )
 
 def part1_3():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 	X_val, y_val 	= mat['Xval'], mat['yval']
 	X_test, y_test 	= mat['Xtest'], mat['ytest']
@@ -159,7 +158,7 @@ def part1_3():
 	print computeGradient( theta, c_[ones((shape(X)[0], 1)), X  ] , y, 1.0 )
 
 def part1_4():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 
 	pyplot.scatter( X, y, marker='x', c='r', s=30, linewidth=2 )
@@ -176,7 +175,7 @@ def part1_4():
 	pyplot.show()
 
 def part2_1():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 	X_val, y_val 	= mat['Xval'], mat['yval']
 	X_test, y_test 	= mat['Xtest'], mat['ytest']
@@ -185,7 +184,7 @@ def part2_1():
 	learningCurve( X, y, X_val, y_val, lamda )
 	
 def part3_1():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 	X_val, y_val 	= mat['Xval'], mat['yval']
 	X_test, y_test 	= mat['Xtest'], mat['ytest']
@@ -227,7 +226,7 @@ def part3_1():
 	learningCurve( X_poly, y, X_poly_val, y_val, lamda )
 
 def part3_2():
-	mat = scipy.io.loadmat( "/Users/saburookita/Downloads/mlclass-ex5-004/mlclass-ex5/ex5data1.mat" )
+	mat = scipy.io.loadmat( "data/ex5data1.mat" )
 	X, y 			= mat['X'], mat['y']
 	X_val, y_val 	= mat['Xval'], mat['yval']
 	X_test, y_test 	= mat['Xtest'], mat['ytest']
@@ -274,12 +273,12 @@ def main():
 	set_printoptions(precision=6, linewidth=200)
 
 	part1_1()
-	part1_2()
-	part1_3()
-	part1_4()
-	part2_1()
-	part3_1()
-	part3_2()
+	# part1_2()
+	# part1_3()
+	# part1_4()
+	# part2_1()
+	# part3_1()
+	# part3_2()
 
 
 	
